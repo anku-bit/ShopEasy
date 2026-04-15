@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ShopEasy — India's Favourite Online Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#ff6b35;--p2:#e55a26;--bg:#f8f9fa;--surface:#fff;--border:#e9ecef;--text:#212529;--muted:#6c757d;--green:#28a745;--red:#dc3545;--blue:#007bff;--r:10px;--shadow:0 2px 12px rgba(0,0,0,.08)}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:#ccc;border-radius:10px}
+.hidden{display:none!important}
+a{text-decoration:none;color:inherit}
+.btn{padding:10px 20px;border-radius:var(--r);border:none;cursor:pointer;font-family:inherit;font-weight:600;font-size:14px;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-p{background:var(--p);color:#fff}.btn-p:hover{background:var(--p2);transform:translateY(-1px)}
+.btn-o{background:transparent;color:var(--p);border:2px solid var(--p)}.btn-o:hover{background:var(--p);color:#fff}
+.btn-dark{background:#212529;color:#fff}.btn-dark:hover{background:#343a40}
+.btn-sm{padding:6px 14px;font-size:12px}
+.btn-fw{width:100%;justify-content:center}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{border:1.5px solid var(--border);border-radius:var(--r);padding:10px 14px;font-family:inherit;font-size:14px;width:100%;outline:none;transition:border-color .2s;background:#fff}
+input:focus,select:focus,textarea:focus{border-color:var(--p)}
+.card{background:var(--surface);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-green{background:#d4edda;color:#155724}
+.badge-red{background:#f8d7da;color:#721c24}
+.badge-yellow{background:#fff3cd;color:#856404}
+.badge-blue{background:#d1ecf1;color:#0c5460}
+.badge-orange{background:#fde8d8;color:#7d3c18}
+/* NAV */
+.nav{background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.08);position:sticky;top:0;z-index:200}
+.nav-top{background:#212529;color:#fff;padding:6px 20px;font-size:12px;text-align:center}
+.nav-main{display:flex;align-items:center;gap:16px;padding:14px 20px;max-width:1400px;margin:0 auto}
+.nav-logo{font-size:22px;font-weight:800;color:var(--p);cursor:pointer;flex-shrink:0}
+.nav-logo span{color:#212529}
+.nav-search{flex:1;position:relative;max-width:500px}
+.nav-search input{padding-right:48px;border-radius:25px;font-size:14px}
+.nav-search-btn{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:var(--p);border:none;border-radius:20px;padding:6px 14px;color:#fff;cursor:pointer;font-size:14px}
+.search-sug{position:absolute;top:calc(100%+6px);left:0;right:0;background:#fff;border-radius:10px;box-shadow:var(--shadow);z-index:300;overflow:hidden}
+.search-sug-item{padding:10px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.search-sug-item:hover{background:var(--bg)}
+.nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.nav-icon-btn{background:none;border:none;cursor:pointer;padding:8px;border-radius:8px;font-size:20px;position:relative;transition:background .2s}
+.nav-icon-btn:hover{background:var(--bg)}
+.cart-badge{position:absolute;top:0;right:0;background:var(--p);color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.nav-user{display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);font-size:13px;font-weight:600;transition:all .2s}
+.nav-user:hover{border-color:var(--p);color:var(--p)}
+/* HERO */
+.hero{background:linear-gradient(135deg,#ff6b35,#ff8c42);color:#fff;padding:60px 20px;text-align:center}
+.hero h1{font-size:clamp(28px,5vw,52px);font-weight:800;margin-bottom:12px}
+.hero p{font-size:18px;opacity:.9;margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto}
+/* CATEGORIES BAR */
+.cat-bar{background:#fff;padding:16px 20px;display:flex;gap:10px;overflow-x:auto;border-bottom:1px solid var(--border);max-width:1400px;margin:0 auto}
+.cat-chip{padding:8px 18px;border-radius:25px;border:1.5px solid var(--border);cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;transition:all .2s;background:#fff}
+.cat-chip:hover,.cat-chip.active{background:var(--p);color:#fff;border-color:var(--p)}
+/* PRODUCTS GRID */
+.page-wrap{max-width:1400px;margin:0 auto;padding:24px 20px}
+.section-title{font-size:22px;font-weight:800;margin-bottom:4px}
+.section-sub{color:var(--muted);font-size:14px;margin-bottom:20px}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.product-card{background:#fff;border-radius:12px;box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.product-img{width:100%;height:200px;object-fit:cover;background:#f8f9fa;display:block}
+.product-info{padding:14px}
+.product-name{font-size:14px;font-weight:600;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4}
+.product-rating{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted);margin-bottom:6px}
+.stars{color:#ffc107;font-size:13px}
+.product-price{display:flex;align-items:center;gap:8px}
+.price-main{font-size:18px;font-weight:800;color:var(--p)}
+.price-orig{font-size:13px;color:var(--muted);text-decoration:line-through}
+.price-discount{font-size:12px;font-weight:700;color:var(--green)}
+.product-actions{display:flex;gap:8px;margin-top:10px}
+/* FILTERS BAR */
+.filters-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+/* PRODUCT DETAIL */
+.product-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.product-detail-img{width:100%;border-radius:12px;object-fit:cover}
+.product-qty{display:flex;align-items:center;gap:0;border:1.5px solid var(--border);border-radius:8px;width:fit-content}
+.qty-btn{background:none;border:none;width:36px;height:36px;font-size:18px;cursor:pointer;font-weight:700}
+.qty-num{width:44px;text-align:center;font-weight:600;border:none;font-size:16px}
+/* CART */
+.cart-item{display:flex;gap:14px;padding:14px;border-bottom:1px solid var(--border)}
+.cart-img{width:80px;height:80px;object-fit:cover;border-radius:8px}
+.cart-summary{background:#fff3f0;border-radius:12px;padding:20px}
+/* CHECKOUT */
+.checkout-grid{display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start}
+/* ORDER */
+.order-card{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.order-header{background:var(--bg);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px)}
+.modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:440px;animation:mIn .25s ease}
+@keyframes mIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.modal h2{font-size:22px;margin-bottom:4px}
+.modal-tabs{display:flex;gap:2px;background:var(--bg);border-radius:8px;padding:4px;margin:16px 0}
+.modal-tab{flex:1;padding:8px;border-radius:6px;text-align:center;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted)}
+.modal-tab.active{background:#fff;color:var(--p)}
+.form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.form-group label{font-size:12px;font-weight:700;color:var(--muted)}
+.err-msg{background:#fde8e8;border:1px solid #fca5a5;border-radius:8px;padding:8px 12px;color:var(--red);font-size:13px;margin-bottom:10px}
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:#212529;color:#fff;border-radius:10px;padding:12px 18px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;gap:8px;max-width:320px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.success{background:#155724;border-left:3px solid var(--green)}
+#toast.error{background:#721c24;border-left:3px solid var(--red)}
+/* ADMIN */
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.admin-stat{background:#fff;border-radius:12px;padding:20px;box-shadow:var(--shadow);text-align:center}
+.admin-stat-num{font-size:32px;font-weight:800;color:var(--p)}
+.admin-stat-lbl{font-size:13px;color:var(--muted);margin-top:4px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+th{background:var(--bg);padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafafa}
+/* SPINNER */
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.page-loader{text-align:center;padding:60px;color:var(--muted)}
+.page-loader .big-spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--p);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 12px}
+/* REVIEWS */
+.review-item{padding:14px 0;border-bottom:1px solid var(--border)}
+.review-item:last-child{border-bottom:none}
+/* BREADCRUMB */
+.breadcrumb{font-size:13px;color:var(--muted);margin-bottom:16px}
+.breadcrumb span{cursor:pointer;color:var(--p)}.breadcrumb span:hover{text-decoration:underline}
+/* FOOTER */
+footer{background:#212529;color:#aaa;padding:40px 20px;margin-top:48px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;max-width:1400px;margin:0 auto}
+footer h4{color:#fff;margin-bottom:12px;font-size:15px}
+footer p,footer a{font-size:13px;color:#aaa;display:block;margin-bottom:6px;text-decoration:none}
+footer a:hover{color:#fff}
+.footer-bottom{text-align:center;margin-top:24px;padding-top:16px;border-top:1px solid #333;font-size:12px}
+@media(max-width:768px){.product-detail-grid,.checkout-grid{grid-template-columns:1fr}.nav-search{max-width:none}.cat-bar{padding:12px 16px}}
+</style>
+</head>
+<body>
+
+<div class="nav-top">🚚 Free delivery on orders above ₹499 | Use code FIRST10 for 10% off first order</div>
+<nav class="nav">
+  <div class="nav-main">
+    <div class="nav-logo" onclick="goHome()">Shop<span>Easy</span></div>
+    <div class="nav-search">
+      <input type="text" id="search-input" placeholder="Search products, brands and more..." oninput="handleSearch()" onkeydown="if(event.key==='Enter')searchSubmit()">
+      <button class="nav-search-btn" onclick="searchSubmit()">🔍</button>
+      <div class="search-sug hidden" id="search-sug"></div>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-icon-btn" onclick="goPage('wishlist')" title="Wishlist">❤️</button>
+      <button class="nav-icon-btn" onclick="goPage('cart')" title="Cart">
+        🛒<span class="cart-badge hidden" id="cart-badge">0</span>
+      </button>
+      <div id="nav-user-area"></div>
+    </div>
+  </div>
+</nav>
+
+<div id="app"></div>
+
+<div id="modal-bg" class="modal-bg hidden" onclick="closeMod(event)">
+  <div class="modal" onclick="event.stopPropagation()" id="modal-box">
+    <div id="modal-content"></div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+const API = "https://shopeasy-backend-tphg.onrender.com/api";
+const S = { user:null, token:localStorage.getItem("se_t"), page:"home", cartCount:0 };
+
+async function req(method, path, body=null) {
+  const o = { method, headers:{"Content-Type":"application/json"} };
+  if (S.token) o.headers["Authorization"] = "Bearer "+S.token;
+  if (body) o.body = JSON.stringify(body);
+  const r = await fetch(API+path, o);
+  const d = await r.json();
+  if (!r.ok) throw new Error(d.error||"Error");
+  return d;
+}
+
+function goPage(p, ...args) {
+  S.page = p; S.args = args; window.scrollTo(0,0); render();
+}
+function goHome() { goPage("home"); }
+
+async function render() {
+  const app = document.getElementById("app");
+  app.innerHTML = `<div class="page-loader"><div class="big-spin"></div><p>Loading...</p></div>`;
+  try {
+    if (S.page==="home")       await renderHome();
+    else if (S.page==="products") await renderProducts();
+    else if (S.page==="product")  await renderProduct(S.args[0]);
+    else if (S.page==="cart")     await renderCart();
+    else if (S.page==="checkout") await renderCheckout();
+    else if (S.page==="orders")   await renderOrders();
+    else if (S.page==="wishlist") await renderWishlist();
+    else if (S.page==="profile")  await renderProfile();
+    else if (S.page==="admin")    await renderAdmin();
+    else goHome();
+  } catch(e) {
+    app.innerHTML = `<div class="page-loader"><p style="color:red">❌ ${e.message}</p><br><p style="color:#666;font-size:13px">Make sure backend is running: python app.py (port 5001)</p></div>`;
+  }
+}
+
+// ── NAVBAR ─────────────────────────────
+function updateNavbar() {
+  const el = document.getElementById("nav-user-area");
+  if (S.user) {
+    const av = S.user.name.charAt(0).toUpperCase();
+    el.innerHTML = `<div class="nav-user" onclick="toggleUserMenu()">
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">${av}</div>
+      <span>${S.user.name.split(" ")[0]}</span>
+      <span style="font-size:10px">▾</span>
+    </div>
+    <div id="user-menu" class="hidden" style="position:absolute;top:70px;right:20px;background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);padding:8px;min-width:180px;z-index:500">
+      <div onclick="goPage('orders')" style="padding:10px 14px;cursor:pointer;border-radius:8px;font-size:14px;font-weight:500">📦 My Orders</div>
+      <div onclick="goPage('wishlist')" style="padding:10px 14px;cursor:pointer;border-radius:8px;font-size:14px;font-weight:500">❤️ Wishlist</div>
+      <div onclick="goPage('profile')" style="padding:10px 14px;cursor:pointer;border-radius:8px;font-size:14px;font-weight:500">👤 Profile</div>
+      ${S.user.role==="admin"?`<div onclick="goPage('admin')" style="padding:10px 14px;cursor:pointer;border-radius:8px;font-size:14px;font-weight:500;color:var(--p)">🛡️ Admin</div>`:""}
+      <hr style="margin:6px 0;border-color:var(--border)">
+      <div onclick="doLogout()" style="padding:10px 14px;cursor:pointer;border-radius:8px;font-size:14px;font-weight:500;color:var(--red)">Logout</div>
+    </div>`;
+  } else {
+    el.innerHTML = `<button class="btn btn-p btn-sm" onclick="openLoginMod()">Login / Sign Up</button>`;
+  }
+  const badge = document.getElementById("cart-badge");
+  if (badge) { badge.textContent = S.cartCount; badge.classList.toggle("hidden", S.cartCount===0); }
+}
+function toggleUserMenu() {
+  const m = document.getElementById("user-menu");
+  if (m) m.classList.toggle("hidden");
+}
+document.addEventListener("click", e => {
+  if (!e.target.closest(".nav-user") && !e.target.closest("#user-menu")) {
+    const m = document.getElementById("user-menu");
+    if (m) m.classList.add("hidden");
+  }
+});
+
+// ── AUTH ───────────────────────────────
+async function autoLogin() {
+  if (!S.token) return;
+  try {
+    S.user = await req("GET","/auth/me");
+    S.cartCount = S.user.cart_count || 0;
+    updateNavbar();
+  } catch(_) { S.token=null; localStorage.removeItem("se_t"); }
+}
+
+function openLoginMod() {
+  openMod(`
+  <h2>Welcome to ShopEasy</h2>
+  <p style="color:var(--muted);font-size:13px;margin-top:4px">Sign in or create an account</p>
+  <div class="modal-tabs"><div class="modal-tab active" id="lt" onclick="switchMTab('l')">Login</div><div class="modal-tab" id="st" onclick="switchMTab('s')">Sign Up</div></div>
+  <div id="merr"></div>
+  <div id="lpanel">
+    <div class="form-group"><label>Email</label><input id="le" type="email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="form-group"><label>Password</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="btn btn-p btn-fw" id="lbtn" onclick="doLogin()">Login</button>
+    <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px">Demo: user@demo.com / Demo@123<br>Admin: admin@shopeasy.com / Admin@123</p>
+  </div>
+  <div id="spanel" class="hidden">
+    <div class="form-group"><label>Full Name</label><input id="sn" placeholder="Your name"></div>
+    <div class="form-group"><label>Email</label><input id="se" type="email" placeholder="you@example.com"></div>
+    <div class="form-group"><label>Password (min 6)</label><input id="sp" type="password" placeholder="••••••••"></div>
+    <button class="btn btn-p btn-fw" id="sbtn" onclick="doRegister()">Create Account</button>
+  </div>`);
+}
+
+function switchMTab(t) {
+  document.getElementById("lpanel").classList.toggle("hidden", t!=="l");
+  document.getElementById("spanel").classList.toggle("hidden", t!=="s");
+  document.getElementById("lt").classList.toggle("active", t==="l");
+  document.getElementById("st").classList.toggle("active", t==="s");
+}
+
+async function doLogin() {
+  const email=v("le"), pw=v("lp");
+  if (!email||!pw) { merr("Fill all fields"); return; }
+  const btn=ge("lbtn"); btnLoad(btn,true);
+  try {
+    const d = await req("POST","/auth/login",{email,password:pw});
+    S.token=d.token; S.user=d.user; localStorage.setItem("se_t",d.token);
+    S.cartCount = d.user.cart_count||0;
+    closeMod(); updateNavbar(); toast("Welcome back, "+d.user.name.split(" ")[0]+"! 👋","success");
+  } catch(e) { merr(e.message); }
+  finally { btnLoad(btn,false,"Login"); }
+}
+
+async function doRegister() {
+  const name=v("sn"), email=v("se"), pw=v("sp");
+  if (!name||!email||!pw) { merr("Fill all fields"); return; }
+  const btn=ge("sbtn"); btnLoad(btn,true);
+  try {
+    const d = await req("POST","/auth/register",{name,email,password:pw});
+    S.token=d.token; S.user=d.user; localStorage.setItem("se_t",d.token);
+    S.cartCount=0; closeMod(); updateNavbar(); toast("Account created! Welcome 🎉","success");
+  } catch(e) { merr(e.message); }
+  finally { btnLoad(btn,false,"Create Account"); }
+}
+
+function doLogout() { S.token=null; S.user=null; S.cartCount=0; localStorage.removeItem("se_t"); updateNavbar(); goHome(); toast("Logged out","info"); }
+
+// ── HOME ───────────────────────────────
+async function renderHome() {
+  const [cats, featRes] = await Promise.all([req("GET","/categories"), req("GET","/products?featured=1&per_page=8")]);
+  const all = await req("GET","/products?sort=popular&per_page=12");
+  document.getElementById("app").innerHTML = `
+  <div style="background:linear-gradient(135deg,#ff6b35,#ff8c42);color:#fff;padding:60px 20px;text-align:center">
+    <h1 style="font-size:clamp(26px,5vw,48px);font-weight:800;margin-bottom:12px">Shop Smart, Live Better</h1>
+    <p style="font-size:17px;opacity:.9;margin-bottom:24px">Millions of products • Best prices • Fast delivery</p>
+    <button class="btn btn-dark btn-sm" onclick="goPage('products')" style="font-size:15px;padding:12px 28px">Shop Now →</button>
+  </div>
+  <div style="display:flex;gap:8px;overflow-x:auto;padding:14px 20px;background:#fff;border-bottom:1px solid var(--border);max-width:1400px;margin:0 auto">
+    <div class="cat-chip active" onclick="goPage('products')">All</div>
+    ${cats.map(c=>`<div class="cat-chip" onclick="goPage('products','${c.slug}')">${c.icon} ${c.name}</div>`).join("")}
+  </div>
+  <div class="page-wrap">
+    <h2 class="section-title">🔥 Featured Products</h2>
+    <p class="section-sub">Handpicked just for you</p>
+    <div class="products-grid">${featRes.products.map(p=>productCard(p)).join("")}</div>
+    <div style="text-align:center;margin:32px 0">
+      <button class="btn btn-o" onclick="goPage('products')">Browse All Products →</button>
+    </div>
+    <h2 class="section-title">🏆 Most Popular</h2>
+    <p class="section-sub">What everyone is buying</p>
+    <div class="products-grid">${all.products.map(p=>productCard(p)).join("")}</div>
+  </div>
+  ${footer()}`;
+}
+
+function productCard(p) {
+  const disc = p.original_price > p.price ? Math.round((1-p.price/p.original_price)*100) : 0;
+  return `<div class="product-card" onclick="goPage('product',${p.id})">
+    <img class="product-img" src="${p.image_url||'https://via.placeholder.com/300x200?text=Product'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+    <div class="product-info">
+      <div class="product-name">${p.name}</div>
+      <div class="product-rating"><span class="stars">${"★".repeat(Math.round(p.rating||0))}${"☆".repeat(5-Math.round(p.rating||0))}</span><span>${p.rating||"New"} (${p.review_count||0})</span></div>
+      <div class="product-price">
+        <span class="price-main">₹${p.price.toLocaleString()}</span>
+        ${p.original_price>p.price?`<span class="price-orig">₹${p.original_price.toLocaleString()}</span><span class="price-discount">${disc}% off</span>`:""}
+      </div>
+      <div class="product-actions">
+        <button class="btn btn-p btn-sm" style="flex:1" onclick="event.stopPropagation();addCart(${p.id})">🛒 Add to Cart</button>
+        <button class="btn btn-o btn-sm" onclick="event.stopPropagation();toggleWish(${p.id})">❤</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── PRODUCTS PAGE ──────────────────────
+async function renderProducts(catSlug="") {
+  const cat = S.args?.[0]||catSlug||"";
+  const [cats, res] = await Promise.all([req("GET","/categories"), req("GET",`/products?category=${cat}&sort=${S.sortBy||"newest"}`)]);
+  document.getElementById("app").innerHTML = `
+  <div style="display:flex;gap:8px;overflow-x:auto;padding:14px 20px;background:#fff;border-bottom:1px solid var(--border);max-width:1400px;margin:0 auto">
+    <div class="cat-chip ${!cat?"active":""}" onclick="goPage('products')">All</div>
+    ${cats.map(c=>`<div class="cat-chip ${cat===c.slug?"active":""}" onclick="goPage('products','${c.slug}')">${c.icon} ${c.name}</div>`).join("")}
+  </div>
+  <div class="page-wrap">
+    <div class="filters-bar">
+      <div style="flex:1;position:relative">
+        <input type="text" id="prod-search" placeholder="Search products..." style="padding-left:36px" onkeydown="if(event.key==='Enter')doProductSearch()">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)">🔍</span>
+      </div>
+      <select onchange="S.sortBy=this.value;goPage('products','${cat}')" style="width:160px">
+        <option value="newest">Newest</option>
+        <option value="price_low">Price: Low→High</option>
+        <option value="price_high">Price: High→Low</option>
+        <option value="rating">Top Rated</option>
+        <option value="popular">Most Popular</option>
+      </select>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:16px">${res.total} products found</p>
+    <div class="products-grid" id="prod-grid">${res.products.map(p=>productCard(p)).join("")||`<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--muted)">No products found</div>`}</div>
+  </div>
+  ${footer()}`;
+}
+
+async function doProductSearch() {
+  const q = document.getElementById("prod-search")?.value||"";
+  const res = await req("GET",`/products?search=${encodeURIComponent(q)}`);
+  document.getElementById("prod-grid").innerHTML = res.products.map(p=>productCard(p)).join("")||`<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--muted)">No products found for "${q}"</div>`;
+}
+
+// ── PRODUCT DETAIL ─────────────────────
+async function renderProduct(pid) {
+  const d = await req("GET",`/products/${pid}`);
+  const p = d.product;
+  const disc = p.original_price > p.price ? Math.round((1-p.price/p.original_price)*100) : 0;
+  document.getElementById("app").innerHTML = `
+  <div class="page-wrap">
+    <div class="breadcrumb"><span onclick="goHome()">Home</span> / <span onclick="goPage('products')">Products</span> / ${p.name}</div>
+    <div class="product-detail-grid">
+      <div>
+        <img src="${p.image_url||'https://via.placeholder.com/500'}" alt="${p.name}" class="product-detail-img" style="height:400px" onerror="this.src='https://via.placeholder.com/500x400?text=No+Image'">
+      </div>
+      <div>
+        <div class="badge badge-orange" style="margin-bottom:10px">${p.cat_icon||"📦"} ${p.cat_name||"General"}</div>
+        <h1 style="font-size:24px;font-weight:800;margin-bottom:10px">${p.name}</h1>
+        <div class="product-rating" style="font-size:14px;margin-bottom:14px">
+          <span class="stars" style="font-size:18px">${"★".repeat(Math.round(p.rating||0))}${"☆".repeat(5-Math.round(p.rating||0))}</span>
+          <span style="font-weight:600">${p.rating||"New"}</span>
+          <span style="color:var(--muted)">(${p.review_count} reviews)</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:32px;font-weight:800;color:var(--p)">₹${p.price.toLocaleString()}</span>
+          ${p.original_price>p.price?`<span style="font-size:18px;color:var(--muted);text-decoration:line-through">₹${p.original_price.toLocaleString()}</span><span class="badge badge-green">${disc}% OFF</span>`:""}
+        </div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px">${p.description}</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:13px;font-weight:600">Quantity:</span>
+          <div class="product-qty">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <input class="qty-num" id="qty" value="1" type="number" min="1" max="${p.stock}">
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+          <span style="font-size:13px;color:${p.stock<10?'var(--red)':'var(--green)'}">
+            ${p.stock>0?`${p.stock<10?'Only '+p.stock+' left!':'In Stock ✓'}`:'Out of Stock'}
+          </span>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-p" style="flex:1" onclick="addCart(${p.id})" ${p.stock===0?"disabled":""}>🛒 Add to Cart</button>
+          <button class="btn btn-dark" style="flex:1" onclick="buyNow(${p.id})" ${p.stock===0?"disabled":""}>⚡ Buy Now</button>
+          <button class="btn btn-o" onclick="toggleWish(${p.id})">❤ Wishlist</button>
+        </div>
+        <div style="margin-top:20px;padding:16px;background:var(--bg);border-radius:10px;font-size:13px">
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <span>🚚 Free delivery above ₹499</span>
+            <span>↩ 30-day returns</span>
+            <span>✅ Secure payments</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:32px">
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:16px">Customer Reviews (${d.reviews.length})</h3>
+      ${S.user?`<div style="background:var(--bg);border-radius:12px;padding:20px;margin-bottom:20px">
+        <h4 style="margin-bottom:12px;font-size:15px">Write a Review</h4>
+        <div style="display:flex;gap:8px;margin-bottom:10px" id="star-row">
+          ${[1,2,3,4,5].map(i=>`<span onclick="setStars(${i})" data-v="${i}" style="font-size:28px;cursor:pointer;color:#ddd">★</span>`).join("")}
+        </div>
+        <textarea id="rev-text" rows="3" placeholder="Share your experience..." style="margin-bottom:10px"></textarea>
+        <button class="btn btn-p btn-sm" onclick="submitReview(${p.id})">Submit Review</button>
+      </div>`:`<p style="color:var(--muted);font-size:13px;margin-bottom:16px"><a onclick="openLoginMod()" style="color:var(--p);cursor:pointer">Login</a> to write a review</p>`}
+      ${d.reviews.length?d.reviews.map(r=>`
+      <div class="review-item">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">${r.user_name.charAt(0)}</div>
+          <strong style="font-size:14px">${r.user_name}</strong>
+          <span class="stars">${"★".repeat(r.rating)}</span>
+          <span style="font-size:12px;color:var(--muted);margin-left:auto">${new Date(r.created_at).toLocaleDateString("en-IN")}</span>
+        </div>
+        <p style="font-size:14px;color:#444;line-height:1.6">${r.comment||"Good product!"}</p>
+      </div>`).join(""):`<p style="color:var(--muted);text-align:center;padding:30px">No reviews yet. Be the first!</p>`}
+    </div>
+    ${d.related.length?`<div style="margin-top:32px">
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:16px">Related Products</h3>
+      <div class="products-grid">${d.related.map(p=>productCard(p)).join("")}</div>
+    </div>`:""}
+  </div>
+  ${footer()}`;
+
+  window._starRating = 0;
+}
+
+function changeQty(d) {
+  const inp = document.getElementById("qty");
+  if (inp) inp.value = Math.max(1, parseInt(inp.value||1)+d);
+}
+function setStars(n) {
+  window._starRating = n;
+  document.querySelectorAll("#star-row span").forEach((s,i)=>{ s.style.color = i<n?"#ffc107":"#ddd"; });
+}
+async function submitReview(pid) {
+  const rating = window._starRating||0;
+  if (!rating) { toast("Please select a rating","error"); return; }
+  try {
+    await req("POST",`/products/${pid}/reviews`,{rating, comment:ge("rev-text")?.value||""});
+    toast("Review submitted! ⭐","success");
+    setTimeout(()=>goPage("product",pid),500);
+  } catch(e) { toast(e.message,"error"); }
+}
+
+// ── CART ───────────────────────────────
+async function renderCart() {
+  if (!S.user) { openLoginMod(); document.getElementById("app").innerHTML=`<div class="page-loader"><p>Please <a onclick="openLoginMod()" style="color:var(--p);cursor:pointer">login</a> to view cart</p></div>`; return; }
+  const cart = await req("GET","/cart");
+  document.getElementById("app").innerHTML = `
+  <div class="page-wrap">
+    <h2 class="section-title" style="margin-bottom:20px">Shopping Cart (${cart.count} items)</h2>
+    ${!cart.items.length?`<div style="text-align:center;padding:60px;color:var(--muted)">
+      <div style="font-size:64px;margin-bottom:16px">🛒</div>
+      <h3>Your cart is empty</h3>
+      <button class="btn btn-p" style="margin-top:16px" onclick="goPage('products')">Continue Shopping</button>
+    </div>`:`
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start">
+      <div class="card" id="cart-items">
+        ${cart.items.map(item=>`
+        <div class="cart-item" id="ci-${item.id}">
+          <img class="cart-img" src="${item.image_url||'https://via.placeholder.com/80'}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/80'">
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:14px;margin-bottom:4px">${item.name}</div>
+            <div style="color:var(--p);font-size:18px;font-weight:800">₹${item.price.toLocaleString()}</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+              <div class="product-qty">
+                <button class="qty-btn" onclick="updateCart(${item.id},${item.quantity-1})">−</button>
+                <span class="qty-num">${item.quantity}</span>
+                <button class="qty-btn" onclick="updateCart(${item.id},${item.quantity+1})">+</button>
+              </div>
+              <span style="font-size:13px;color:var(--muted)">Subtotal: <strong>₹${(item.price*item.quantity).toLocaleString()}</strong></span>
+              <button onclick="updateCart(${item.id},0)" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:18px;margin-left:auto">🗑</button>
+            </div>
+          </div>
+        </div>`).join("")}
+      </div>
+      <div>
+        <div class="cart-summary">
+          <h3 style="margin-bottom:16px;font-size:18px;font-weight:800">Order Summary</h3>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px">
+            <span>Subtotal (${cart.count} items)</span><span>₹${cart.total.toLocaleString()}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;color:var(--green)">
+            <span>Delivery</span><span>${cart.total>=499?"FREE":"₹49"}</span>
+          </div>
+          <hr style="margin:12px 0;border-color:rgba(0,0,0,.1)">
+          <div style="display:flex;justify-content:space-between;font-size:18px;font-weight:800">
+            <span>Total</span><span>₹${(cart.total+(cart.total>=499?0:49)).toLocaleString()}</span>
+          </div>
+          ${cart.total<499?`<p style="font-size:12px;color:var(--green);margin-top:8px">Add ₹${Math.ceil(499-cart.total)} more for free delivery!</p>`:""}
+          <button class="btn btn-p btn-fw" style="margin-top:16px;padding:14px" onclick="goPage('checkout')">Proceed to Checkout →</button>
+          <button class="btn btn-o btn-fw" style="margin-top:8px" onclick="goPage('products')">Continue Shopping</button>
+        </div>
+      </div>
+    </div>`}
+  </div>
+  ${footer()}`;
+}
+
+async function updateCart(cid, qty) {
+  try {
+    if (qty <= 0) await req("DELETE",`/cart/${cid}`);
+    else await req("PUT",`/cart/${cid}`,{quantity:qty});
+    const cart = await req("GET","/cart");
+    S.cartCount = cart.count;
+    updateNavbar();
+    await renderCart();
+  } catch(e) { toast(e.message,"error"); }
+}
+
+async function addCart(pid) {
+  if (!S.user) { openLoginMod(); return; }
+  const qty = parseInt(document.getElementById("qty")?.value||1);
+  try {
+    const r = await req("POST","/cart",{product_id:pid,quantity:qty});
+    S.cartCount = r.cart_count;
+    updateNavbar();
+    toast("Added to cart! 🛒","success");
+  } catch(e) { toast(e.message,"error"); }
+}
+
+async function buyNow(pid) {
+  await addCart(pid);
+  goPage("checkout");
+}
+
+async function toggleWish(pid) {
+  if (!S.user) { openLoginMod(); return; }
+  try {
+    const r = await req("POST","/wishlist",{product_id:pid});
+    toast(r.saved?"Added to wishlist ❤️":"Removed from wishlist","info");
+  } catch(e) { toast(e.message,"error"); }
+}
+
+// ── CHECKOUT ───────────────────────────
+async function renderCheckout() {
+  if (!S.user) { openLoginMod(); return; }
+  const cart = await req("GET","/cart");
+  if (!cart.items.length) { goPage("cart"); return; }
+  const total = cart.total + (cart.total>=499?0:49);
+  document.getElementById("app").innerHTML = `
+  <div class="page-wrap">
+    <h2 class="section-title" style="margin-bottom:20px">Checkout</h2>
+    <div class="checkout-grid">
+      <div>
+        <div class="card" style="padding:20px;margin-bottom:20px">
+          <h3 style="margin-bottom:16px;font-size:17px;font-weight:800">📦 Delivery Address</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="form-group" style="grid-column:1/-1"><label>Full Name</label><input id="c-name" value="${S.user.name}"></div>
+            <div class="form-group"><label>Phone *</label><input id="c-phone" value="${S.user.phone||""}" placeholder="+91 98765 43210"></div>
+            <div class="form-group"><label>City *</label><input id="c-city" value="${S.user.city||""}" placeholder="Mumbai"></div>
+            <div class="form-group" style="grid-column:1/-1"><label>Address *</label><textarea id="c-addr" rows="3" placeholder="House no, Street, Area...">${S.user.address||""}</textarea></div>
+            <div class="form-group" style="grid-column:1/-1"><label>Order Notes (optional)</label><input id="c-notes" placeholder="Any special instructions?"></div>
+          </div>
+        </div>
+        <div class="card" style="padding:20px">
+          <h3 style="margin-bottom:14px;font-size:17px;font-weight:800">💳 Payment Method</h3>
+          ${[["cod","💵 Cash on Delivery"],["online","💳 Online Payment (Demo)"]].map(([val,lbl])=>`
+          <label style="display:flex;align-items:center;gap:10px;padding:12px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:8px">
+            <input type="radio" name="pm" value="${val}" ${val==="cod"?"checked":""}> <span style="font-size:14px;font-weight:600">${lbl}</span>
+          </label>`).join("")}
+        </div>
+      </div>
+      <div>
+        <div class="cart-summary">
+          <h3 style="margin-bottom:14px;font-size:17px;font-weight:800">Order Summary</h3>
+          ${cart.items.map(i=>`<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px">
+            <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:8px">${i.name} ×${i.quantity}</span>
+            <span style="font-weight:600">₹${(i.price*i.quantity).toLocaleString()}</span>
+          </div>`).join("")}
+          <hr style="margin:12px 0">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:14px"><span>Subtotal</span><span>₹${cart.total.toLocaleString()}</span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:14px;color:var(--green)"><span>Delivery</span><span>${cart.total>=499?"FREE":"₹49"}</span></div>
+          <hr style="margin:12px 0">
+          <div style="display:flex;justify-content:space-between;font-size:20px;font-weight:800"><span>Total</span><span>₹${total.toLocaleString()}</span></div>
+          <div id="cod-err"></div>
+          <button class="btn btn-p btn-fw" style="margin-top:16px;padding:14px;font-size:16px" id="place-btn" onclick="placeOrder()">🛒 Place Order</button>
+          <p style="font-size:11px;color:var(--muted);margin-top:10px;text-align:center">By placing order you agree to our Terms & Conditions</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  ${footer()}`;
+}
+
+async function placeOrder() {
+  const addr = ge("c-addr")?.value.trim();
+  const city = ge("c-city")?.value.trim();
+  const phone = ge("c-phone")?.value.trim();
+  if (!addr||!city||!phone) { toast("Please fill address, city and phone","error"); return; }
+  const pm = document.querySelector("input[name='pm']:checked")?.value||"cod";
+  const btn = ge("place-btn"); btnLoad(btn,true);
+  try {
+    const r = await req("POST","/orders",{address:addr,city,phone,payment_method:pm,notes:ge("c-notes")?.value||""});
+    S.cartCount=0; updateNavbar();
+    document.getElementById("app").innerHTML = `
+    <div class="page-wrap" style="text-align:center;padding:60px 20px">
+      <div style="font-size:72px;margin-bottom:20px">🎉</div>
+      <h2 style="font-size:28px;font-weight:800;margin-bottom:10px;color:var(--green)">Order Placed Successfully!</h2>
+      <p style="color:var(--muted);font-size:16px;margin-bottom:8px">Order ID: <strong>#${r.order_id}</strong></p>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:28px">We'll deliver to your address within 3-5 business days</p>
+      <div style="display:flex;gap:12px;justify-content:center">
+        <button class="btn btn-p" onclick="goPage('orders')">📦 Track Order</button>
+        <button class="btn btn-o" onclick="goPage('products')">Continue Shopping</button>
+      </div>
+    </div>`;
+  } catch(e) { toast(e.message,"error"); }
+  finally { btnLoad(btn,false,"🛒 Place Order"); }
+}
+
+// ── ORDERS ─────────────────────────────
+async function renderOrders() {
+  if (!S.user) { openLoginMod(); return; }
+  const orders = await req("GET","/orders");
+  const stc = {pending:"badge-yellow",confirmed:"badge-blue",shipped:"badge-orange",delivered:"badge-green",cancelled:"badge-red"};
+  document.getElementById("app").innerHTML = `
+  <div class="page-wrap">
+    <h2 class="section-title" style="margin-bottom:20px">My Orders (${orders.length})</h2>
+    ${!orders.length?`<div style="text-align:center;padding:60px;color:var(--muted)"><div style="font-size:64px;margin-bottom:16px">📦</div><h3>No orders yet</h3><button class="btn btn-p" style="margin-top:16px" onclick="goPage('products')">Start Shopping</button></div>`
+    :orders.map(o=>`
+    <div class="order-card">
+      <div class="order-header">
+        <div>
+          <span style="font-weight:700;font-size:15px">Order #${o.id}</span>
+          <span style="color:var(--muted);font-size:13px;margin-left:10px">${new Date(o.created_at).toLocaleDateString("en-IN")}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="badge ${stc[o.status]||"badge-yellow"}">${o.status}</span>
+          <span style="font-size:16px;font-weight:800;color:var(--p)">₹${o.total.toLocaleString()}</span>
+        </div>
+      </div>
+      <div style="padding:14px">
+        ${o.items.map(i=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <img src="${i.image_url||'https://via.placeholder.com/50'}" style="width:50px;height:50px;object-fit:cover;border-radius:8px" onerror="this.src='https://via.placeholder.com/50'">
+          <div style="flex:1"><div style="font-size:14px;font-weight:600">${i.product_name}</div><div style="font-size:13px;color:var(--muted)">Qty: ${i.quantity} × ₹${i.price.toLocaleString()}</div></div>
+        </div>`).join("")}
+        <div style="font-size:13px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+          📍 ${o.address}, ${o.city} | 📞 ${o.phone}
+        </div>
+      </div>
+    </div>`).join("")}
+  </div>
+  ${footer()}`;
+}
+
+// ── WISHLIST ───────────────────────────
+async function renderWishlist() {
+  if (!S.user) { openLoginMod(); document.getElementById("app").innerHTML=`<div class="page-loader"><p>Please <a onclick="openLoginMod()" style="color:var(--p);cursor:pointer">login</a> to view wishlist</p></div>`; return; }
+  const items = await req("GET","/wishlist");
+  document.getElementById("app").innerHTML = `
+  <div class="page-wrap">
+    <h2 class="section-title" style="margin-bottom:20px">My Wishlist ❤️ (${items.length})</h2>
+    ${!items.length?`<div style="text-align:center;padding:60px;color:var(--muted)"><div style="font-size:64px;margin-bottom:16px">❤️</div><h3>Wishlist is empty</h3><button class="btn btn-p" style="margin-top:16px" onclick="goPage('products')">Explore Products</button></div>`
+    :`<div class="products-grid">${items.map(p=>productCard(p)).join("")}</div>`}
+  </div>
+  ${footer()}`;
+}
+
+// ── PROFILE ────────────────────────────
+async function renderProfile() {
+  if (!S.user) { openLoginMod(); return; }
+  document.getElementById("app").innerHTML = `
+  <div class="page-wrap" style="max-width:600px">
+    <h2 class="section-title" style="margin-bottom:20px">My Profile</h2>
+    <div class="card" style="padding:24px">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
+        <div style="width:64px;height:64px;border-radius:50%;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800">${S.user.name.charAt(0)}</div>
+        <div><h3 style="font-size:20px">${S.user.name}</h3><p style="color:var(--muted);font-size:14px">${S.user.email}</p></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group" style="grid-column:1/-1"><label>Full Name</label><input id="pn" value="${S.user.name}"></div>
+        <div class="form-group"><label>Phone</label><input id="pp" value="${S.user.phone||""}" placeholder="+91..."></div>
+        <div class="form-group"><label>City</label><input id="pc" value="${S.user.city||""}" placeholder="Mumbai"></div>
+        <div class="form-group" style="grid-column:1/-1"><label>Address</label><textarea id="pa" rows="2">${S.user.address||""}</textarea></div>
+      </div>
+      <div id="prof-err"></div>
+      <div style="display:flex;gap:10px;margin-top:4px">
+        <button class="btn btn-p" onclick="saveProfile()">Save Changes</button>
+        <button class="btn btn-o" onclick="goPage('orders')">📦 My Orders</button>
+      </div>
+    </div>
+  </div>
+  ${footer()}`;
+}
+
+async function saveProfile() {
+  try {
+    const updated = await req("PUT","/auth/update",{name:v("pn"),phone:v("pp"),city:v("pc"),address:v("pa")});
+    S.user = updated; updateNavbar(); toast("Profile updated! ✅","success");
+  } catch(e) { toast(e.message,"error"); }
+}
+
+// ── ADMIN ──────────────────────────────
+async function renderAdmin() {
+  if (!S.user || S.user.role!=="admin") { goHome(); return; }
+  const [stats, users] = await Promise.all([req("GET","/admin/stats"), req("GET","/admin/users")]);
+  const s = stats.stats;
+  document.getElementById("app").innerHTML = `
+  <div class="page-wrap">
+    <h2 class="section-title" style="margin-bottom:20px">Admin Dashboard 🛡️</h2>
+    <div class="admin-grid">
+      <div class="admin-stat"><div class="admin-stat-num">₹${(s.total_revenue||0).toLocaleString()}</div><div class="admin-stat-lbl">Total Revenue</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">${s.total_orders}</div><div class="admin-stat-lbl">Total Orders</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">${s.total_products}</div><div class="admin-stat-lbl">Products</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">${s.total_users}</div><div class="admin-stat-lbl">Customers</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" style="color:var(--red)">${s.pending_orders}</div><div class="admin-stat-lbl">Pending Orders</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" style="color:var(--red)">${s.low_stock}</div><div class="admin-stat-lbl">Low Stock Items</div></div>
+    </div>
+    <h3 style="font-size:17px;font-weight:800;margin-bottom:12px">Recent Orders</h3>
+    <div style="overflow-x:auto;margin-bottom:28px">
+      <table>
+        <thead><tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody>${stats.recent_orders.map(o=>`
+        <tr>
+          <td>#${o.id}</td>
+          <td>${o.user_name}</td>
+          <td style="font-weight:700;color:var(--p)">₹${o.total.toLocaleString()}</td>
+          <td><span class="badge badge-yellow">${o.status}</span></td>
+          <td style="color:var(--muted)">${new Date(o.created_at).toLocaleDateString("en-IN")}</td>
+        </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+    <h3 style="font-size:17px;font-weight:800;margin-bottom:12px">All Users (${users.length})</h3>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th></tr></thead>
+        <tbody>${users.map(u=>`
+        <tr>
+          <td><strong>${u.name}</strong></td>
+          <td style="color:var(--muted)">${u.email}</td>
+          <td><span class="badge ${u.role==="admin"?"badge-blue":"badge-green"}">${u.role}</span></td>
+          <td style="color:var(--muted)">${new Date(u.created_at).toLocaleDateString("en-IN")}</td>
+        </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  ${footer()}`;
+}
+
+// ── SEARCH ─────────────────────────────
+let _st;
+async function handleSearch() {
+  const q = ge("search-input")?.value?.trim()||"";
+  clearTimeout(_st);
+  const dd = ge("search-sug");
+  if (!dd) return;
+  if (q.length<2) { dd.classList.add("hidden"); return; }
+  _st = setTimeout(async()=>{
+    try {
+      const items = await req("GET",`/search/suggest?q=${encodeURIComponent(q)}`);
+      if (!items.length) { dd.classList.add("hidden"); return; }
+      dd.innerHTML = items.map(i=>`<div class="search-sug-item" onclick="goPage('product',${i.id})">${i.name}<span style="color:var(--p);font-weight:700">₹${i.price.toLocaleString()}</span></div>`).join("");
+      dd.classList.remove("hidden");
+    } catch(_){}
+  },300);
+}
+function searchSubmit() {
+  const q = ge("search-input")?.value?.trim()||"";
+  ge("search-sug")?.classList.add("hidden");
+  if (q) { S.args=[""]; goPage("products"); setTimeout(()=>{ const inp=ge("prod-search"); if(inp){inp.value=q;doProductSearch();} },300); }
+}
+document.addEventListener("click",e=>{ if(!e.target.closest(".nav-search")) ge("search-sug")?.classList.add("hidden"); });
+
+// ── MODAL ──────────────────────────────
+function openMod(html) { ge("modal-content").innerHTML=html; ge("modal-bg").classList.remove("hidden"); }
+function closeMod(e) { if(!e||e.target===ge("modal-bg")) ge("modal-bg").classList.add("hidden"); }
+
+// ── HELPERS ────────────────────────────
+const ge = id => document.getElementById(id);
+const v  = id => (ge(id)?.value||"").trim();
+function toast(msg, type="info") {
+  const t=ge("toast"); t.innerHTML=`${type==="success"?"✅":type==="error"?"❌":"ℹ️"} ${msg}`;
+  t.className=`show ${type}`; clearTimeout(window._tt);
+  window._tt=setTimeout(()=>t.className="",3200);
+}
+function merr(msg) { const e=ge("merr"); if(e) e.innerHTML=`<div class="err-msg">⚠️ ${msg}</div>`; }
+function btnLoad(btn,on,text="") { if(!btn)return; btn.disabled=on; if(on)btn.innerHTML=`<div class="spin"></div>`; else if(text)btn.innerHTML=text; }
+function footer() {
+  return `<footer><div class="footer-grid">
+    <div><h4>ShopEasy</h4><p>India's favourite online store.<br>Best prices, fast delivery.</p></div>
+    <div><h4>Quick Links</h4><a onclick="goPage('products')">All Products</a><a onclick="goPage('orders')">My Orders</a><a onclick="goPage('wishlist')">Wishlist</a></div>
+    <div><h4>Categories</h4><a onclick="goPage('products','electronics')">📱 Electronics</a><a onclick="goPage('products','fashion')">👗 Fashion</a><a onclick="goPage('products','books')">📚 Books</a></div>
+    <div><h4>Contact</h4><p>📧 support@shopeasy.in</p><p>📞 1800-123-4567</p><p>🕐 Mon–Sat 9am–6pm</p></div>
+  </div><div class="footer-bottom">© 2024 ShopEasy. Made with ❤️ in India</div></footer>`;
+}
+
+// ── INIT ───────────────────────────────
+(async()=>{
+  updateNavbar();
+  await autoLogin();
+  render();
+})();
+</script>
+</body>
+</html>
